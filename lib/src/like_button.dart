@@ -68,7 +68,7 @@ class LikeButton extends StatefulWidget {
   /// you can get current value from onTap/countBuilder
   final bool? isLiked;
 
-  final bool? triggerAnimationAlways;
+  final bool triggerAnimationAlways;
 
   /// like count
   /// if null, will not show
@@ -423,7 +423,7 @@ class LikeButtonState extends State<LikeButton> with TickerProviderStateMixin {
     }
     if (widget.onTap != null) {
       widget.onTap!(widget.triggerAnimationAlways || (_isLiked ?? true)).then((bool? isLiked) {
-        _handleIsLikeChanged(widget.triggerAnimationAlways || isLiked);
+        _handleIsLikeChanged(widget.triggerAnimationAlways || isLiked!);
       });
     } else {
       _handleIsLikeChanged(!(_isLiked ?? true));
