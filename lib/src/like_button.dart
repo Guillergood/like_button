@@ -18,6 +18,7 @@ class LikeButton extends StatefulWidget {
     double? circleSize,
     this.likeCount,
     this.isLiked = false,
+    this.triggerAnimationAlways = false,
     this.mainAxisAlignment = MainAxisAlignment.center,
     this.crossAxisAlignment = CrossAxisAlignment.center,
     this.animationDuration = const Duration(milliseconds: 1000),
@@ -66,6 +67,8 @@ class LikeButton extends StatefulWidget {
   /// it's initial value
   /// you can get current value from onTap/countBuilder
   final bool? isLiked;
+
+  final bool? triggerAnimationAlways;
 
   /// like count
   /// if null, will not show
@@ -419,8 +422,8 @@ class LikeButtonState extends State<LikeButton> with TickerProviderStateMixin {
       return;
     }
     if (widget.onTap != null) {
-      widget.onTap!(_isLiked ?? true).then((bool? isLiked) {
-        _handleIsLikeChanged(isLiked);
+      widget.onTap!(widget.triggerAnimationAlways || (_isLiked ?? true)).then((bool? isLiked) {
+        _handleIsLikeChanged(widget.triggerAnimationAlways || isLiked);
       });
     } else {
       _handleIsLikeChanged(!(_isLiked ?? true));
@@ -447,7 +450,7 @@ class LikeButtonState extends State<LikeButton> with TickerProviderStateMixin {
       return;
     }
 
-    if (isLiked != null && isLiked != _isLiked) {
+    if (isLiked != null && (widget.triggerAnimationAlways || isLiked != _isLiked)) {
       if (_likeCount != null) {
         _preLikeCount = _likeCount;
         if (isLiked) {
